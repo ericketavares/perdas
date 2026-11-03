@@ -631,7 +631,7 @@ function parseGoogleSheetPayload(payload){
  if(payload?.status==='error')throw Error(payload.errors?.[0]?.detailed_message||payload.errors?.[0]?.message||'O Google Sheets retornou um erro.');
  if(!payload?.table||!Array.isArray(payload.table.cols)||!Array.isArray(payload.table.rows))throw Error('Estrutura inesperada na resposta do Google Sheets.');
  const headers=payload.table.cols.map((col,index)=>canonicalGoogleHeader(col.label||col.id||`Coluna ${index+1}`));
- const POSITIONAL_COLUMNS={0:'Origem',3:'Estação de Tratamento',6:'LAT/LONG',7:'Município',9:'DN Medidor',13:'Classificação',14:'Medidor Instalado',26:'Desvio Corrigido',27:'Q referência',41:'Hidromecânica',42:'Civil',43:'Elétrica e Automação',44:'Repavimentação e Limpeza',45:'Aferição',46:'Telemetria',55:'Status Recebimento'};
+ const POSITIONAL_COLUMNS={0:'Origem',3:'Estação de Tratamento',6:'LAT/LONG',7:'Município',9:'DN Medidor',13:'Classificação',14:'Medidor Instalado',26:'Desvio Corrigido',27:'Q referência',41:'Hidromecânica',42:'Civil',43:'Elétrica e Automação',44:'Repavimentação e Limpeza',45:'Aferição',46:'Laudo',47:'Telemetria',55:'Status Recebimento'};
  Object.entries(POSITIONAL_COLUMNS).forEach(([index,field])=>headers[Number(index)]=field);
  const rows=payload.table.rows.map(row=>{const obj={};headers.forEach((header,index)=>{const cell=row.c?.[index];obj[header]=cell==null?'':(cell.v??cell.f??'')});return obj}).filter(row=>Object.values(row).some(value=>value!=null&&String(value).trim()!==''));
  const normalized=normalizeDataset(rows);
